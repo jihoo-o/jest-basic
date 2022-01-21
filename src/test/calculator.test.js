@@ -1,32 +1,59 @@
 const Calculator = require('../calculator.js');
 
-test('Calculator', () => {
-    const calc = new Calculator();
+describe('Calculator', () => {
+    let cal;
+    beforeEach(() => {
+        cal = new Calculator();
+    });
 
-    expect(calc).toBeInstanceOf(Calculator);
-    expect(calc).toEqual({ value: 0 });
-    // expect(calc).toStrictEqual({ value: 0 }); // Fail
+    // it <-> test
+    it('inits with 0', () => {
+        expect(cal.value).toBe(0);
+    });
 
-    calc.set(10);
-    expect(calc).toEqual({ value: 10 });
+    it('set', () => {
+        cal.set(10);
+        expect(cal.value).toBe(10);
+    });
 
-    calc.add(10);
-    expect(calc).toEqual({ value: 20 });
+    it('clear', () => {
+        cal.clear();
+        expect(cal.value).toBe(0);
+    });
 
-    // 에러 캐치를 위해 테스트 코드를 함수로 감싸야 함
-    expect(() => {
-        calc.add(200);
-    }).toThrowError(new Error('Value can not be greater than 100'));
+    it('add', () => {
+        cal.set(1);
+        cal.add(10);
+        expect(cal.value).toBe(11);
+    });
 
-    calc.add(10);
-    expect(calc).toEqual({ value: 30 });
+    it('sub', () => {
+        cal.subtract(10);
+        expect(cal.value).toBe(-10);
+    });
 
-    calc.subtract(10);
-    expect(calc).toEqual({ value: 20 });
+    it('multiply', () => {
+        cal.set(10);
+        cal.multiply(10);
+        expect(cal.value).toBe(100);
+    });
 
-    calc.multiply(10);
-    expect(calc).toEqual({ value: 200 });
+    describe('divides', () => {
+        it('0 / 0 === NaN', () => {
+            cal.divide(0);
+            expect(cal.value).toBe(NaN);
+        });
 
-    calc.divide(10);
-    expect(calc).toEqual({ value: 20 });
+        it('1 / 0 === Infinity', () => {
+            cal.set(1);
+            cal.divide(0);
+            expect(cal.value).toBe(Infinity);
+        });
+
+        it('100 / 10 === 10', () => {
+            cal.set(100);
+            cal.divide(10);
+            expect(cal.value).toBe(10);
+        });
+    });
 });
