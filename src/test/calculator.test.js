@@ -21,10 +21,21 @@ describe('Calculator', () => {
         expect(cal.value).toBe(0);
     });
 
-    it('add', () => {
-        cal.set(1);
-        cal.add(10);
-        expect(cal.value).toBe(11);
+    describe('adds', () => {
+        it('1 + 10 = 11', () => {
+            cal.set(1);
+            cal.add(10);
+            expect(cal.value).toBe(11);
+        });
+
+        it('add shoud throw an error if value is greater than 100', () => {
+            expect(() => cal.add(101)).toThrow(
+                'Value can not be greater than 100'
+            );
+            // .toThrowError(
+            //     new Error('Value can not be greater than 100')
+            // );
+        });
     });
 
     it('sub', () => {
