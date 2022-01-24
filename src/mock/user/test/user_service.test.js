@@ -3,11 +3,11 @@ const UserClient = require('../user_client.js');
 jest.mock('../user_client');
 
 describe('UserService', () => {
-    const clientLogin = jest.fn(async () => true);
+    const login = jest.fn(async () => true);
 
     UserClient.mockImplementation(() => {
         return {
-            login: clientLogin,
+            login,
         };
     });
 
@@ -17,15 +17,17 @@ describe('UserService', () => {
         userService = new UserService(new UserClient());
     });
 
-    it('First attempt', async () => {
+    it('calls login() on UserClient when tries to login', async () => {
         await userService.login('id', 'password');
-        expect(userService.isLoggedIn).toBeTruthy();
-        expect(clientLogin).toHaveBeenCalledTimes(1);
+        // 내부적인 구현 사항 테스트 제거
+        // -> 변수 이름이 변경되면 테스트 코드까지 수정되어야 함
+        // expect(userService.isLoggedIn).toBeTruthy();
+        expect(login.mock.calls.length).toBe(1);
     });
 
-    it('Additional attempts after the user has already logged in', async () => {
+    it('should not call login() on UserClient again if already logged in', async () => {
         await userService.login('id', 'password');
         await userService.login('id', 'password');
-        expect(clientLogin).toHaveBeenCalledTimes(1);
+        expect(login.mock.calls.length).toBe(1);
     });
 });
