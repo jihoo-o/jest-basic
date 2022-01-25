@@ -13,12 +13,20 @@ class Stack {
         if (this.stack.length > 0) {
             return this.stack.pop();
         } else {
-            return null;
+            throw new Error('Stack is empty');
         }
     }
 
-    get() {
-        return this.stack;
+    peek() {
+        if (this.stack.length > 0) {
+            return this.stack[this.stack.length - 1];
+        } else {
+            throw new Error('Stack is empty');
+        }
+    }
+
+    size() {
+        return this.stack.length;
     }
 }
 

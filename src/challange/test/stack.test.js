@@ -7,39 +7,55 @@ describe('stack', () => {
         stack = new Stack();
     });
 
-    it('inits with []', () => {
-        const result = stack.get();
-        expect(result).toEqual([]);
+    it('is created empty', () => {
+        expect(stack.size()).toBe(0);
     });
 
-    it('push 0 to 4', () => {
-        for (let i = 0; i < 5; i++) {
-            stack.push(i);
-        }
-        const result = stack.get();
-        expect(result).toEqual([0, 1, 2, 3, 4]);
+    describe('push', () => {
+        it('allows to push item', () => {
+            for (let i = 0; i < 5; i++) {
+                stack.push(i);
+            }
+            expect(stack.size()).toBe(5);
+        });
+
+        it('allows up to 100', () => {
+            for (let i = 0; i < 105; i++) {
+                stack.push(1);
+            }
+            expect(stack.size()).toBe(100);
+        });
     });
 
-    it('stack size is limited to 100', () => {
-        for (let i = 0; i < 105; i++) {
-            stack.push(1);
-        }
-        const result = stack.get();
-        expect(result).toHaveLength(100);
+    describe('pop', () => {
+        it('throws an error if stack is empty', () => {
+            expect(() => {
+                stack.pop();
+            }).toThrow('Stack is empty');
+        });
+
+        it('returns the last pushed item and removes it from the stack', () => {
+            for (let i = 0; i < 5; i++) {
+                stack.push(i);
+            }
+            expect(stack.pop()).toBe(4);
+            expect(stack.size()).toBe(4);
+        });
     });
 
-    it('pop the last item of [0, 1, 2, 3, 4]', () => {
-        for (let i = 0; i < 5; i++) {
-            stack.push(i);
-        }
-        const poppedItem = stack.pop();
-        const result = stack.get();
-        expect(poppedItem).toBe(4);
-        expect(result).toEqual([0, 1, 2, 3]);
-    });
+    describe('peek', () => {
+        it('throws an error if stack is empty', () => {
+            expect(() => {
+                stack.peek();
+            }).toThrow('Stack is empty');
+        });
 
-    it('prevent popping from trying it on the stack size is 0', () => {
-        const poppedItem = stack.pop();
-        expect(poppedItem).toBe(null);
+        it('returns the last pushed item but keeps it in the stack', () => {
+            for (let i = 0; i < 5; i++) {
+                stack.push(i);
+            }
+            expect(stack.peek()).toBe(4);
+            expect(stack.size()).toBe(5);
+        });
     });
 });
