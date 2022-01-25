@@ -20,10 +20,12 @@ describe('stack', () => {
         });
 
         it('allows up to 100', () => {
-            for (let i = 0; i < 105; i++) {
+            for (let i = 0; i < 100; i++) {
                 stack.push(1);
             }
-            expect(stack.size()).toBe(100);
+            expect(() => {
+                stack.push(1);
+            }).toThrow('Stack can have a maximum size of 100');
         });
     });
 
